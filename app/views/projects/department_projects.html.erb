@@ -1,0 +1,63 @@
+<%= render("sidebar.html.erb") -%>
+<%= render("vertical.html.erb") -%>
+
+<div class="page-content-wrap">                
+                
+                    <div class="row">
+                        <div class="col-md-12">
+
+                        <div class="panel panel-default">
+                                <div class="panel-heading">                                
+                                    <h3 class="panel-title">Departments</h3>                               
+                                </div>
+                            <!-- START TABS -->                                
+                            <div class="panel panel-default tabs">                            
+                                <ul class="nav nav-tabs" role="tablist">
+                                <%  count = 1
+                                    @departments.each do |dept| -%>
+                                    <li class="<% if count == 1 -%><%="active"-%> <% end -%>"><a href="#tab<%= count -%>" role="tab" data-toggle="tab"><%= dept -%></a></li>
+                                    <%  count += 1
+                                         end -%>
+                                </ul>                            
+                                <div class="panel-body tab-content">
+                                <%  count = 1
+                                    @departments.each do |dept|
+                                 -%>
+                                    <div class="tab-pane <% if count == 1 -%><%="active"-%> <% end -%>" id="tab<%= count -%>">
+                                        <% all_projects = department_projects(@projects,count) -%>
+                                          <table class="table table-striped table-bordered">
+                                            <tr>
+                                              <th>Name</th>
+                                              <th>Local Chapter</th>
+                                              <th>Member</th>
+                                              <th>Objective</th>
+                                              <th>KPI</th>
+                                              <th>MOS</th>
+                                              <th>Duration</th>
+                                              <th>Unrated Activities</th>
+                                            </tr>
+                                            <% all_projects.each do |project| -%>
+                                            <tr>
+                                              <td><%= link_to "#{project.name}", :controller => 'projects',:action => 'single_project',:id => project.id -%></td>
+                                              <td><%= local_chapter_name(project.lcid) -%></td>
+                                              <td><%= member_name(project.mid) -%></td>
+                                              <td><%= project.objective -%></td>
+                                              <td><%= project.kpi -%></td>
+                                              <td><%= project.mos -%></td>
+                                              <td><%= project.start_date.to_formatted_s(:long) -%> - <%= project.end_date.to_formatted_s(:long) -%></td>
+                                              <td><%= get_unrated_activities(project.id) -%></td>
+                                            </tr>
+                                            <% end -%>
+                                          </table>
+                                          </div>
+                                        <% count += 1
+                                          end -%>
+                                    </div>  
+                                </div>
+                            </div>                                                   
+                            <!-- END TABS -->                        
+                        </div>
+                        </div>
+                        </div>
+
+<%= render("message_box.html.erb") -%>

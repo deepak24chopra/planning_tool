@@ -1,0 +1,119 @@
+<%= render("sidebar.html.erb") -%>
+
+<%= render("vertical.html.erb") -%>
+                
+                <div class="page-content-wrap">                
+                
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <!-- START DEFAULT DATATABLE -->
+                            <div class="panel panel-default">
+                                <div class="panel-heading">                                
+                                    <h3 class="panel-title">All Projects</h3>                               
+                                </div>
+                                <div class="panel-body">
+                                    <table class="table datatable">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Chapter</th>
+                                                <th>Department</th>
+                                                <th>Synergy</th>
+                                                <th>Synergy Function</th>
+                                                <th>Created by</th>
+                                                <th>Objective</th>
+                                                <th>Key Progress Indicators</th>
+                                                <th>Measure Of Success</th>
+                                                <th>Duration</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        
+                                        
+                                            <tr>
+                                            
+                                              <td><%= @project.name -%></td>
+                                              <td><%= local_chapter_name(@project.lcid) -%></td>
+                                              
+                                              <td><%= department_name(@project.dept) -%></td>
+                                              <td><%= department_name(@project.dept2) -%></td>
+                                              <td><%= @project.synergy_function -%></td>
+                                              <td><%= member_name(@project.mid) -%></td>
+                                              <td><%= @project.objective -%></td>
+                                              <td><%= @project.kpi -%></td>
+                                              <td><%= @project.mos -%></td>
+                                              <td><%= @project.start_date.to_formatted_s(:long) -%> - <%= @project.end_date.to_formatted_s(:long) -%></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+            <% if(authorize_to_edit(session[:user_id],@project.id)) -%>
+                <%= button_to "Edit Project", {:controller => 'projects',:action => 'edit_project', :id => @project.id}, class: "btn btn-primary" -%>
+            <% end -%>
+
+    </div>
+</div>
+<br />
+<div class="col-md-6">
+<h3>Activities</h3>
+    <div class="timeline-item">
+        <div class="timeline-item-content">
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th>Name</th>
+                <th>Subject</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        <% @project.activity.each do |act| -%>
+            <tr>
+                <td align="center"><%= act.name -%></td>
+                <td align="center"><%= act.subject -%></td>
+                <td align="center"><%= act.status -%></td>
+                <td align="center"><%= link_to "View",{:controller => 'projects', :action => 'view_activity', :id => act.id}, class: "btn btn-primary" -%></td>
+            </tr>
+        <% end -%>
+        </table>
+            <% if(authorize_for_activity(session[:user_id], @project.id)) -%>
+                <h4>Add Activity</h4>
+
+                <%= form_for(@activity ,url: {:action => 'create_activity',:method => 'post'}) do |f| -%>
+                    <%= f.hidden_field(:project_id, :value => @project.id) -%>
+                    <%= f.text_field(:name, placeholder: "Activity name..", class: "form-control") -%><br />
+                    <%= f.text_area(:subject, placeholder: "Activity Subject..", class: "form-control") -%><br />
+                    
+                    <%= f.submit("Submit Activity", class: "btn btn-primary")-%>
+                <% end -%>
+            <% end -%>
+            </div>
+    </div>
+</div>
+<div class="col-md-6">
+    <h3>Feedbacks</h3>
+    <% @project.feedback.each do |feed| -%>
+                  <h6 class="media-heading"><%= member_name(feed.mid) -%> <small> at <%= feed.time.to_formatted_s(:short) -%></small></h6>          
+                        <%= feed.description -%><br /><br />
+        <% end -%>
+                <br /><br />
+                <% if(authorize_for_feedback(session[:user_id])) -%>
+                <h2>Add Feedback</h2>
+                    <%= form_for(@feedback, :url => {:action => 'create_feedback',:method => 'post'}) do |f| -%>
+                    <%= f.text_area :description, placeholder: "Feedback goes here..", class: "form-control" -%><br />
+                    <%= f.hidden_field :mid, :value => session[:user_id] -%>
+                    <%= f.hidden_field :project_id, :value => @project.id -%>
+                    <%= f.submit "Create Feedback", class: "btn btn-primary" -%>
+                    <% end -%>
+                <% end -%>
+                                    </div>
+            
+                                </div>
+                            </div>   
+                        </div>
+                    </div>                                
+                    
+                </div>
+     
+<%= render("message_box.html.erb") -%>

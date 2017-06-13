@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PlanningTool</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <!-- template css in public -->
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        
+        <link rel="icon" href="favicon.ico" type="image/x-icon" />
+        <!-- END META SECTION -->
+        
+        <!-- CSS INCLUDE --> 
+        <%= stylesheet_link_tag 'theme-default.css',media: 'all' -%>       
+          
+        <!-- EOF CSS INCLUDE -->      
+
+  </head>
+
+  <body>
+    <%= yield %>
+
+        <!-- START PRELOADS -->
+        <audio id="audio-alert" src="../audio/alert.mp3" preload="auto"></audio>
+        <audio id="audio-fail" src="../audio/fail.mp3" preload="auto"></audio>
+        <!-- END PRELOADS -->                  
+        
+    <!-- START SCRIPTS -->
+        <!-- START PLUGINS -->
+        <%= javascript_include_tag 'jquery.min.js', 'data-turbolinks-track': 'reload' %>
+        <%= javascript_include_tag 'jquery-ui.min.js', 'data-turbolinks-track': 'reload' %>
+        <%= javascript_include_tag 'bootstrap.min.js', 'data-turbolinks-track': 'reload' %>
+              
+        <!-- END PLUGINS -->
+
+        <!-- START THIS PAGE PLUGINS dashboard-->
+        <%= javascript_include_tag 'icheck.min.js', 'data-turbolinks-track': 'reload' %>        
+        <%= javascript_include_tag 'jquery.mCustomScrollbar.min.js', 'data-turbolinks-track': 'reload' %>        
+        <%= javascript_include_tag 'scrolltopcontrol.js', 'data-turbolinks-track': 'reload' %>
+        
+        <%= javascript_include_tag 'raphael-min.js', 'data-turbolinks-track': 'reload' %>
+        <%= javascript_include_tag 'morris.min.js', 'data-turbolinks-track': 'reload'%>
+        
+        <%= javascript_include_tag 'd3.v3.js', 'data-turbolinks-track': 'reload' %>       
+        <%= javascript_include_tag 'rickshaw.min.js', 'data-turbolinks-track': 'reload' %>
+        <%= javascript_include_tag 'jquery-jvectormap-1.2.2.min.js' , 'data-turbolinks-track': 'reload'%>
+        <%= javascript_include_tag 'jquery-jvectormap-world-mill-en.js', 'data-turbolinks-track': 'reload' %>
+        
+        
+        <%= javascript_include_tag 'bootstrap-datepicker.js', 'data-turbolinks-track': 'reload' %>               
+        <%= javascript_include_tag 'owl.carousel.min.js', 'data-turbolinks-track': 'reload' %>                
+        <%= javascript_include_tag 'moment.min.js', 'data-turbolinks-track': 'reload' %>  
+        <%= javascript_include_tag 'daterangepicker.js', 'data-turbolinks-track': 'reload' %>               
+        
+        
+        <!-- END THIS PAGE PLUGINS-->   
+
+        <!-- THIS PAGE PLUGINS  new_project-->
+        <%= javascript_include_tag 'icheck.min.js', 'data-turbolinks-track': 'reload' %>
+        
+        
+        
+        
+        <%= javascript_include_tag 'bootstrap-file-input.js', 'data-turbolinks-track': 'reload' %>                
+        <%= javascript_include_tag 'bootstrap-select.js', 'data-turbolinks-track': 'reload' %>
+        <%= javascript_include_tag 'jquery.tagsinput.min.js', 'data-turbolinks-track': 'reload' %>
+        
+        <!-- END THIS PAGE PLUGINS --> 
+
+        <!-- THIS PAGE PLUGINS  show projects-->
+        <!-- already included
+        <script type='text/javascript' src='../js/plugins/icheck/icheck.min.js'></script>
+         -->
+        
+        
+        <%= javascript_include_tag 'jquery.dataTables.min.js', 'data-turbolinks-track': 'reload' %>
+            
+        <!-- END PAGE PLUGINS -->    
+
+        <!-- THIS PAGE PLUGINS department_projects -->
+        <!-- already included
+        <script type='text/javascript' src='../js/plugins/icheck/icheck.min.js'></script>
+        -->
+        
+        
+        <!-- END PAGE PLUGINS -->
+
+        <!-- START THIS PAGE PLUGINS single project-->
+        <!-- already included        
+        <script type='text/javascript' src='../js/plugins/icheck/icheck.min.js'></script>
+        -->
+        
+
+        <!-- START TEMPLATE -->
+        <%= javascript_include_tag 'settings.js', 'data-turbolinks-track': 'reload' %>
+        <%= javascript_include_tag 'plugins.js', 'data-turbolinks-track': 'reload' %>
+        <%= javascript_include_tag 'actions.js', 'data-turbolinks-track': 'reload' %>
+        <%= javascript_include_tag 'demo_dashboard.js', 'data-turbolinks-track': 'reload' %>
+        
+        <!-- END TEMPLATE -->
+    <!-- END SCRIPTS --> 
+  </body>
+</html>

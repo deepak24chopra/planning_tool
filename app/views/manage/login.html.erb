@@ -1,0 +1,44 @@
+        <div class="login-container">
+        
+            <div class="login-box animated fadeInDown">
+                <div class="login-logo"></div>
+                <div class="login-body">
+                    <div class="login-title"><strong>Welcome</strong>, Please login</div>
+                    <%= form_tag({controller: "manage", action: "authorize_user"}, {method: "post", :id => "loginform", 
+        :class => "form-horizontal"}) do -%>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <%= text_field_tag "email", nil, class: "form-control",placeholder: "Email goes here.." -%>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <%= password_field_tag "password",nil,class: "form-control", placeholder: "Password goes here.." -%>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <a href="#" class="btn btn-link btn-block">Forgot your password?</a>
+                        </div>
+                        <div class="col-md-6">
+                            <%= submit_tag "Log In",{:class => "btn btn-info btn-block"} -%>
+                             <% end -%>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+                <div class="login-footer">
+                    <div class="pull-left">
+                        &copy; 2017 Aiesec
+                    </div>
+                    
+                    
+                </div>
+                </div>
+                </div>
+            
+
+
+
+
+
