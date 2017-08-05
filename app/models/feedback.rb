@@ -5,5 +5,8 @@ class Feedback < ApplicationRecord
 
 	self.table_name = "feedback"
 	belongs_to :project , foreign_key: 'project_id'
+	belongs_to :user , foreign_key: 'mid'
+
+	validates :description, presence: true 
 
 end

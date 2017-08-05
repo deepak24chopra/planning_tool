@@ -1,3 +1,4 @@
+
 <%= render("sidebar.html.erb") -%>
 
 <%= render("vertical.html.erb") -%>
@@ -32,16 +33,16 @@
                                         </thead>
                                         <tbody>
                                         <% count = 1 -%>
-                                        <% @projects.each do |project| -%>
+                                        <% @resp[1].each do |project| -%>
                                             <tr>
                                             <td> <%= count -%></td>
                                               <td><%= link_to "#{project.name}", :action => 'single_project', :id => project.id -%></td>
-                                              <td><%= local_chapter_name(project.lcid) -%></td>
+                                              <td><%= project.local_chapter.lcname -%></td>
                                               
                                               <td><%= department_name(project.dept) -%></td>
                                               <td><%= department_name(project.dept2) -%></td>
                                               <td><%= project.synergy_function -%></td>
-                                              <td><%= member_name(project.mid) -%></td>
+                                              <td><%= project.user.mname -%></td>
                                               <td><%= project.objective -%></td>
                                               <td><%= project.kpi -%></td>
                                               <td><%= project.mos -%></td>
@@ -53,11 +54,9 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                
                             </div>
                             <!-- END DEFAULT DATATABLE -->
-                            <% if @user.mlcid != 1 -%>
-                            <%= link_to "Add Project", {:controller => 'projects', :action => 'new_project'}, class: "btn btn-primary" -%>
-                            <% end -%>
                         </div>
                     </div>                                
                     

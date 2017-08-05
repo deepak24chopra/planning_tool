@@ -20,12 +20,12 @@
                                 
                                 
 
-                        <% if @project.errors.any? %>
+                        <% if @resp[1].errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@project.errors.count, "error") %> prohibited this episode from being saved:</h2>
+      &nbsp;&nbsp;&nbsp;&nbsp;<h3><font color="red"><%= pluralize(@resp[1].errors.count, "error") %> prohibited this project from being saved: </font></h3>
 
       <ul>
-      <% @project.errors.full_messages.each do |message| %>
+      <% @resp[1].errors.each do |attr, message| %>
         <li><%= message %></li>
       <% end %>
       </ul>
@@ -33,124 +33,8 @@
   <% end %>
 
                         <form></form>
-              <%= form_for(@project, url: {:controller => 'projects',:action =>'create_project', :method => 'post'},html: {class: "form-horizontal"}) do |f| -%>
-
-                                    <div class="form-group">
-                                        <label class="col-md-3 col-xs-12 control-label"> Name</label>
-                                        <div class="col-md-6 col-xs-12">                                            
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                <%= f.text_field :name, class: "form-control", placeholder: "Project name goes here.." -%>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="col-md-3 col-xs-12 control-label">Chapter</label>
-                                        <div class="col-md-6 col-xs-12">              
-                                            <%= f.select(:lcid, options_from_collection_for_select(@lcs, :lcid, :lcname)) -%>
-                                        </div>
-                                    </div>
-
-                                    
-                                    
-                                    <div class="form-group">                                        
-                                        <label class="col-md-3 col-xs-12 control-label">Department</label>
-                                        <div class="col-md-6 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                <%= f.select(:dept, options_for_select(@departments)) -%>
-
-                                                
-                                            </div> 
-                                            <span class="help-block">
-                                                    {<% @departments.each do |dept| -%>
-                                                        <%= dept -%> => <%= department_name(dept) -%>, 
-                                                    <% end -%>}
-                                                </span>          
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="form-group">                                        
-                                        <label class="col-md-3 col-xs-12 control-label">Synergy</label>
-                                        <div class="col-md-6 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                <%= f.select(:dept2, options_for_select(@synergy_departments)) -%>
-                                            </div> 
-                                            <span class="help-block">
-                                                    {<% @synergy_departments.each do |dept| -%>
-                                                        <%= dept -%> => <%= department_name(dept) -%>, 
-                                                    <% end -%>}
-                                                </span>           
-                                        </div>
-                                    </div>
-
-
-                                    
-                                    
-                                    <div class="form-group">
-                                        <label class="col-md-3 col-xs-12 control-label">Synergy Function</label>
-                                        <div class="col-md-6 col-xs-12">                                            
-                                            <%= f.text_area :synergy_function, class: "form-control", placeholder: "Synergy" -%>
-                          
-                                        </div>
-                                    </div>
-
-                                    <%= f.hidden_field :mid, value: session[:user_id] -%>
-
-                                    <div class="form-group">
-                                        <label class="col-md-3 col-xs-12 control-label">Objective</label>
-                                        <div class="col-md-6 col-xs-12">                                            
-                                            <%= f.text_area :objective, class: "form-control", placeholder: "Objective.." -%>
-
-                                            
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="col-md-3 col-xs-12 control-label">Key Progress indicators</label>
-                                        <div class="col-md-6 col-xs-12">                                            
-                                            <%= f.text_area :kpi, class: "form-control", placeholder: "Key Progress indicators", :rows => 5 -%>
-                                            
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="col-md-3 col-xs-12 control-label">Measure of success</label>
-                                        <div class="col-md-6 col-xs-12">                                            
-                                            <%= f.text_area :mos, class: "form-control", placeholder: "Measure Of success", :rows => 5 -%>
-                                            
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">                                        
-                                        <label class="col-md-3 col-xs-12 control-label">Start Date</label>
-                                        <div class="col-md-6 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                                <%= f.date_select(:start_date, order: [:day, :month, :year], min: Date.today, class: "form-control") -%>                                            
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">                                        
-                                        <label class="col-md-3 col-xs-12 control-label">End Date</label>
-                                        <div class="col-md-6 col-xs-12">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                                <%= f.date_select(:end_date, order: [:day, :month, :year], min: Date.today, class: "form-control") -%>                                            
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-
-                                
-                                
-                                <%= f.submit("Create Project", class: "btn btn-primary") -%>
-
-<% end -%> 
+              
+              <%= render partial: "project_form.html.erb", locals: { variable: @resp[1], action_name: 'create_project', method_type: 'post', id: 'nil'} -%>
                                                                         
                                          
                               

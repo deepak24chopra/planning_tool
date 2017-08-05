@@ -33,25 +33,25 @@
                                         
                                             <tr>
                                             
-                                              <td><%= @project.name -%></td>
-                                              <td><%= local_chapter_name(@project.lcid) -%></td>
+                                              <td><%= @resp[1].name -%></td>
+                                              <td><%= @resp[1].local_chapter.lcname -%></td>
                                               
-                                              <td><%= department_name(@project.dept) -%></td>
-                                              <td><%= department_name(@project.dept2) -%></td>
-                                              <td><%= @project.synergy_function -%></td>
-                                              <td><%= member_name(@project.mid) -%></td>
-                                              <td><%= @project.objective -%></td>
-                                              <td><%= @project.kpi -%></td>
-                                              <td><%= @project.mos -%></td>
-                                              <td><%= @project.start_date.to_formatted_s(:long) -%> - <%= @project.end_date.to_formatted_s(:long) -%></td>
+                                              <td><%= department_name(@resp[1].dept) -%></td>
+                                              <td><%= department_name(@resp[1].dept2) -%></td>
+                                              <td><%= @resp[1].synergy_function -%></td>
+                                              <td><%= @resp[1].user.mname -%></td>
+                                              <td><%= @resp[1].objective -%></td>
+                                              <td><%= @resp[1].kpi -%></td>
+                                              <td><%= @resp[1].mos -%></td>
+                                              <td><%= @resp[1].start_date.to_formatted_s(:long) -%> - <%= @resp[1].end_date.to_formatted_s(:long) -%></td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
 
-            <% if(authorize_to_edit(session[:user_id],@project.id)) -%>
-                <%= button_to "Edit Project", {:controller => 'projects',:action => 'edit_project', :id => @project.id}, class: "btn btn-primary" -%>
+            <% if(authorize_to_edit(@resp[1])) -%>
+                <%= button_to "Edit Project", {:controller => 'projects',:action => 'edit_project', :id => @resp[1].id}, class: "btn btn-primary" -%>
             <% end -%>
 
     </div>
@@ -61,27 +61,41 @@
 <h3>Activities</h3>
     <div class="timeline-item">
         <div class="timeline-item-content">
-        <table class="table table-bordered table-striped">
-            <tr>
-                <th>Name</th>
-                <th>Subject</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        <% @project.activity.each do |act| -%>
-            <tr>
-                <td align="center"><%= act.name -%></td>
-                <td align="center"><%= act.subject -%></td>
-                <td align="center"><%= act.status -%></td>
-                <td align="center"><%= link_to "View",{:controller => 'projects', :action => 'view_activity', :id => act.id}, class: "btn btn-primary" -%></td>
-            </tr>
-        <% end -%>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                        <tr>
+                            <th width="10%">Name</th>
+                            <th width="70%">Subject</th>
+                            <th width="10%">Status</th>
+                            <th width="10%">Actions</th>
+                        </tr>
+                    <% @resp[1].activity.each do |act| -%>
+                        <tr>
+                            <td><%= act.name -%></td>
+                            <td><%= act.subject -%></td>
+                            <td><%= simple_format(act.status, :sanitize => false) -%></td>
+                            <td><%= link_to "View",{:controller => 'projects', :action => 'view_activity', :id => act.id}, class: "btn btn-primary" -%></td>
+                        </tr>
+                    <% end -%>
         </table>
-            <% if(authorize_for_activity(session[:user_id], @project.id)) -%>
+        </div>
+            <% if(authorize_for_activity(@resp[1])) -%>
                 <h4>Add Activity</h4>
 
-                <%= form_for(@activity ,url: {:action => 'create_activity',:method => 'post'}) do |f| -%>
-                    <%= f.hidden_field(:project_id, :value => @project.id) -%>
+                <% if @resp[2].errors.any? %>
+                <div id="error_explanation">
+                  <h2><%= pluralize(@resp[2].errors.count, "error") %> prohibited this activity from being saved:</h2>
+
+                  <ul>
+                  <% @resp[2].errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                  </ul>
+                </div>
+              <% end %>
+
+                <%= form_for(@resp[2] ,url: {:action => 'create_activity',:method => 'post'}) do |f| -%>
+                    <%= f.hidden_field(:project_id, :value => @resp[1].id) -%>
                     <%= f.text_field(:name, placeholder: "Activity name..", class: "form-control") -%><br />
                     <%= f.text_area(:subject, placeholder: "Activity Subject..", class: "form-control") -%><br />
                     
@@ -93,17 +107,28 @@
 </div>
 <div class="col-md-6">
     <h3>Feedbacks</h3>
-    <% @project.feedback.each do |feed| -%>
-                  <h6 class="media-heading"><%= member_name(feed.mid) -%> <small> at <%= feed.time.to_formatted_s(:short) -%></small></h6>          
-                        <%= feed.description -%><br /><br />
+    <% @resp[1].feedback.each do |feed| -%>
+                  <h6 class="media-heading"><%= feed.user.mname -%> <small> at <%= feed.time.to_formatted_s(:short) -%></small></h6>          
+                        <%= simple_format(feed.description, :sanitize => false) -%><br /><br />
         <% end -%>
                 <br /><br />
-                <% if(authorize_for_feedback(session[:user_id])) -%>
+                <% if @resp[3].errors.any? %>
+                <div id="error_explanation">
+                  <h2><%= pluralize(@resp[2].errors.count, "error") %> prohibited this feedback from being saved:</h2>
+
+                  <ul>
+                  <% @resp[3].errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                  </ul>
+                </div>
+              <% end %>
+                <% if(authorize_for_feedback()) -%>
                 <h2>Add Feedback</h2>
-                    <%= form_for(@feedback, :url => {:action => 'create_feedback',:method => 'post'}) do |f| -%>
+                    <%= form_for(@resp[3], :url => {:action => 'create_feedback',:method => 'post'}) do |f| -%>
                     <%= f.text_area :description, placeholder: "Feedback goes here..", class: "form-control" -%><br />
                     <%= f.hidden_field :mid, :value => session[:user_id] -%>
-                    <%= f.hidden_field :project_id, :value => @project.id -%>
+                    <%= f.hidden_field :project_id, :value => @resp[1].id -%>
                     <%= f.submit "Create Feedback", class: "btn btn-primary" -%>
                     <% end -%>
                 <% end -%>

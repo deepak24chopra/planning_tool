@@ -8,4 +8,7 @@ class Activity < ApplicationRecord
 
 	scope :unrated, lambda { where(rated: 0)  }
 
+	validates :name, presence: true 
+	validates :subject, presence: true
+
 end

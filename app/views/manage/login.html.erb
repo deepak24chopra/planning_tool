@@ -1,13 +1,17 @@
         <div class="login-container">
         
             <div class="login-box animated fadeInDown">
-                <div class="login-logo"></div>
+                <center><div class="login-logo"><%= image_tag "planning_tool.png" -%></div></center>
                 <div class="login-body">
                     <div class="login-title"><strong>Welcome</strong>, Please login</div>
-                    <%= form_tag({controller: "manage", action: "authorize_user"}, {method: "post", :id => "loginform", 
+                    <% if flash[:notice].present? -%>
+                        <p class="notice"><font color="white"><%= flash[:notice] -%></font></p>
+                    <% end -%>
+                    <%= form_tag({controller: "manage", action: "authorize_user"}, {method: "post", 
         :class => "form-horizontal"}) do -%>
                     <div class="form-group">
                         <div class="col-md-12">
+                        
                             <%= text_field_tag "email", nil, class: "form-control",placeholder: "Email goes here.." -%>
                         </div>
                     </div>
@@ -22,23 +26,20 @@
                         </div>
                         <div class="col-md-6">
                             <%= submit_tag "Log In",{:class => "btn btn-info btn-block"} -%>
-                             <% end -%>
                         </div>
                     </div>
-                    </form>
+                    <% end -%>
                 </div>
                 <div class="login-footer">
-                    <div class="pull-left">
-                        &copy; 2017 Aiesec
+                    <div <!-- class="pull-left" -->
+                        &copy; 2017 AIESEC in India
                     </div>
-                    
-                    
+                    <div class="pull-right"><!-- 
+                        <a href="#">About</a> |
+                        <a href="#">Privacy</a> |
+                        <a href="#">Contact Us</a>
+                    </div> -->
                 </div>
-                </div>
-                </div>
+            </div>
             
-
-
-
-
-
+        </div>
